@@ -6,6 +6,10 @@
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.mjs",
   "source": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivsaez/agents-flow.git"
+  },
   "scripts": {
     "test": "jest",
     "prebuild": "npm run test",
