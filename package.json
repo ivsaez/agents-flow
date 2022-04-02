@@ -62,5 +62,9 @@
     "dist",
     "package.json",
     "README.md"
-  ]
+  ],
+  "dependencies": {
+    "first-order-logic": "^1.0.0",
+    "npc-emotional": "^1.0.0"
+  }
 }
