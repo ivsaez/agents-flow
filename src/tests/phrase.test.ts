@@ -3,6 +3,13 @@ import { Effect, EffectComponent, EffectKind, EffectStrength } from "npc-emotion
 import { Sentence, Function, Cardinality, Individual } from "first-order-logic";
 
 describe("PhraseResult should", () => {
+    it("throw error if wrong input", () => {
+        expect(() => new PhraseResult(null, new Effect("target", [
+            EffectComponent.positive(EffectKind.Friend, EffectStrength.High)
+        ]))).toThrowError();
+        expect(() => new PhraseResult("content", null)).toThrowError();
+    });
+
     it("create phrase result without sentence", () => {
         let result = new PhraseResult("content", new Effect("target", [
             EffectComponent.positive(EffectKind.Friend, EffectStrength.High)
