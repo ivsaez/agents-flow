@@ -3,7 +3,7 @@ import { RelationSet } from "npc-relations";
 import { Individual, TruthTable } from "first-order-logic";
 import { IEmotional } from "npc-emotional";
 import { Happiness, Personality } from "npc-mind";
-import internal from "stream";
+import { randomFromList } from "role-methods";
 
 export type PassTurn = (turn: number, agent: Agent) => string;
 
@@ -214,5 +214,46 @@ export class Desires{
 
     heuristicTotal(crowd: Crowd){
         return this._desires.reduce((accumulated, desire) => accumulated + desire.heuristic(crowd), 0);
+    }
+}
+
+export class Agents{
+    private _agents: Agent[];
+    private _availableAgents: Agent[];
+
+    constructor(agents: Agent[]){
+        if(agents == null)
+            throw new Error("Agents cannot be null.");
+        
+        this._agents = agents;
+        this._availableAgents = [];
+    }
+
+    get all(): Agent[]{
+        return this._agents;
+    }
+
+    get count(): number{
+        return this._agents.length;
+    }
+
+    allExcept(agent: Agent): Agent[]{
+        return this._agents.filter(a => a.Name !== agent.Name);
+    }
+
+    popRandomAgent(): Agent{
+        if(this._availableAgents.length === 0)
+            this._availableAgents = [...this._agents];
+        
+        let ponderatedAgents: Agent[] = [];
+        for(let agent of this._availableAgents){
+            for(let i = 0; i < agent.Personality.introvertyExtroverty; i++){
+                ponderatedAgents.push(agent);
+            }
+        }
+
+        let selectedAgent = randomFromList(ponderatedAgents);
+        this._availableAgents = this._availableAgents.filter(a => a.Name !== selectedAgent.Name);
+        return selectedAgent;
     }
 }

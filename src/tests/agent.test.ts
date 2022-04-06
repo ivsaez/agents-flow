@@ -1,4 +1,4 @@
-import { Agent, Desire, Crowd, Desires } from "../agent";
+import { Agent, Agents, Desire, Crowd, Desires } from "../agent";
 import { Aspect, Likes, OriginKind } from "npc-aspect";
 import { RelationSet } from "npc-relations";
 import { Happiness, Personality } from "npc-mind";
@@ -38,6 +38,41 @@ describe("Agent should", () => {
         let agent = generateAgent("First agent");
         let individual = agent.Individual;
         expect(individual.equals(new Individual("Firstagent"))).toBe(true);
+    });
+});
+
+describe("Agents should", () => {
+    it("throw error if creating with wrong parameters.", () => {
+        expect(() => new Agents(null)).toThrowError();
+    });
+
+    it("create agents", () => {
+        let agent1 = generateAgent("First");
+        let agent2 = generateAgent("Second");
+        let agents = new Agents([ agent1, agent2 ]);
+
+        expect(agents.all.length).toBe(2);
+        expect(agents.all[0].Name).toBe("First");
+        expect(agents.all[1].Name).toBe("Second");
+        expect(agents.count).toBe(2);
+        expect(agents.allExcept(agent2).length).toBe(1);
+        expect(agents.allExcept(agent2)[0].Name).toBe("First");
+    });
+
+    it("pop random agents", () => {
+        let agent1 = generateAgent("First");
+        let agent2 = generateAgent("Second");
+        let agents = new Agents([ agent1, agent2 ]);
+
+        let popped1 = agents.popRandomAgent();
+        let popped2 = agents.popRandomAgent();
+
+        expect(popped1.Name === "First" || popped1.Name === "Second").toBe(true);
+        expect(popped2.Name === "First" || popped2.Name === "Second").toBe(true);
+        expect(popped1.Name !== popped2.Name).toBe(true);
+
+        let popped3 = agents.popRandomAgent();
+        expect(popped3.Name === "First" || popped3.Name === "Second").toBe(true);
     });
 });
 
