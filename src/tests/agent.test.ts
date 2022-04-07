@@ -3,19 +3,7 @@ import { Aspect, Likes, OriginKind } from "npc-aspect";
 import { RelationSet } from "npc-relations";
 import { Happiness, Personality } from "npc-mind";
 import { Individual, TruthTable } from "first-order-logic";
-
-function generateAgent(name: string): Agent{
-    return new Agent(
-        name,
-        Aspect.generateOriginHuman(OriginKind.Oceanic),
-        new RelationSet(),
-        new Happiness(),
-        new Personality(),
-        new Likes(),
-        new TruthTable(),
-        false
-    );
-}
+import { generateAgent } from "./agentBuilder";
 
 describe("Agent should", () => {
     it("throw error if creating with wrong parameters.", () => {
