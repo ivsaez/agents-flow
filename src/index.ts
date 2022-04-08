@@ -1,6 +1,6 @@
 export { Input } from "./input";
 export { PhraseResult } from "./phrase";
-export { RolesDescriptor } from "./roles";
+export { RolesDescriptor, Roles } from "./roles";
 export { Choices, Step } from "./step";
 export { Agent, Agents, Desire, Crowd, Desires, PassTurn, Heuristic } from "./agent";
 export { Location, MapStructure } from "./location";
