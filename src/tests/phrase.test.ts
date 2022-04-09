@@ -1,6 +1,7 @@
-import { PhraseResult } from "../phrase";
+import { PhraseResult, Alternative } from "../phrase";
 import { Effect, EffectComponent, EffectKind, EffectStrength } from "npc-emotional";
 import { Sentence, Function, Cardinality, Individual } from "first-order-logic";
+import { Roles } from "../roles";
 
 describe("PhraseResult should", () => {
     it("throw error if wrong input", () => {
@@ -38,5 +39,25 @@ describe("PhraseResult should", () => {
                 new Individual("First"), 
                 new Individual("Second"))))
                 .toBe(true);
+    });
+});
+
+describe("Alternative should", () => {
+    it("throw error when incorrect input", () => {
+        expect(() => new Alternative(null)).toThrowError();
+    });
+
+    it("create a valid instance", () => {
+        let alternative = new Alternative(
+            roles => "Hello",
+            roles => Effect.null(),
+            roles => Sentence.build("A")
+        );
+
+        let roles = new Roles();
+
+        expect(alternative.text(roles)).toBe("Hello");
+        expect(alternative.effect(roles).isNull).toBe(true);
+        expect(alternative.sentence(roles).equals(Sentence.build("A"))).toBe(true);
     });
 });
