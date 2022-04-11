@@ -22,7 +22,7 @@ export interface IInteraction{
     rolesDescriptor: RolesDescriptor;
     timing: Timing;
 
-    intimate():void;
+    intimate():IInteraction;
     getPermutations(main: Agent, other: Agent[]): Roles[];
     equals(interaction: IInteraction): boolean;
     globallyEquals(interaction: IInteraction): boolean;

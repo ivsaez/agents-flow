@@ -43,11 +43,13 @@ export class Roles{
         return [...this._roles.values()];
     }
 
-    match(role: string, agent: Agent){
+    match(role: string, agent: Agent): Roles{
         this.validateRole(role);
         this.validateAgent(agent);
         
         this._roles.set(role, agent);
+
+        return this;
     }
 
     get(role: string): Agent{
