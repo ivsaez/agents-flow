@@ -6,3 +6,4 @@ export { Agent, Agents, Desire, Crowd, Desires, PassTurn, Heuristic } from "./ag
 export { Location, MapStructure } from "./location";
 export { IDeliverer, IInteraction, Timing } from "./interfaces";
 export { Deliverer, BaseInteraction, Interaction } from "./interaction";
+export { OnGoingInteraction } from "./ongoing";
