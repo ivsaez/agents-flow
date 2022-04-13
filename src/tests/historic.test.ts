@@ -4,9 +4,6 @@ import { MapStructure, Location } from "../location";
 import { Interaction } from "../interaction";
 import { Phrase } from "../phrase";
 import { generateAgent } from "./agentBuilder";
-import { Effect, EffectComponent, EffectKind, EffectStrength } from "npc-emotional";
-import { Sentence } from "first-order-logic";
-import { Input } from "../input";
 import { HistoricInteractions } from "../historic";
 
 describe("HistoricInteractions should", () => {
