@@ -8,4 +8,4 @@ export { IDeliverer, IInteraction, Timing } from "./interfaces";
 export { Deliverer, BaseInteraction, Interaction } from "./interaction";
 export { OnGoingInteraction } from "./ongoing";
 export { Historic, HistoricInteractions } from "./historic";
-export { Scenario, FinishingConditions, World } from "./scenario";
+export { Scenario, FinishingConditions, World, ScenarioEndAllConditionsMet, ScenarioEndNoInteractions } from "./scenario";
