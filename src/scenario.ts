@@ -57,6 +57,8 @@ export class World{
 }
 
 export type ScenarioTurnPassed = (turn: number, scenario: Scenario) => string;
+export const ScenarioEndAllConditionsMet: string = "0";
+export const ScenarioEndNoInteractions: string = "1";
 
 export class Scenario{
     private _interactions: IInteraction[];
@@ -109,6 +111,7 @@ export class Scenario{
         this._finishingConditions = finishingConditions;
         this._onTurnPassed = onTurnPassed == null ? (turn: number, scenario: Scenario) => "" : onTurnPassed;
 
+        this._isFinished = false;
         this._selectableInteractions = [];
         this._interactor = null;
         this._historic = new HistoricInteractions();
@@ -156,7 +159,7 @@ export class Scenario{
         if (this._finishingConditions.allMet(this))
         {
             this._isFinished = true;
-            return Step.fromContent("El escenario ha cumplido todas sus condiciones.");
+            return Step.fromContent(ScenarioEndAllConditionsMet);
         }
 
         let agent: Agent = null;
@@ -179,7 +182,7 @@ export class Scenario{
         if (agent == null)
         {
             this._isFinished = true;
-            return Step.fromContent("No quedan interacciones por hacer en este escenario.");
+            return Step.fromContent(ScenarioEndNoInteractions);
         }
 
         if (agent.IsHuman)

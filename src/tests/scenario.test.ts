@@ -1,13 +1,11 @@
 import { Agents } from "../agent";
-import { Scenario, FinishingConditions, World } from "../scenario";
-import { OnGoingInteraction } from "../ongoing";
-import { Roles, RolesDescriptor } from "../roles";
+import { Scenario, FinishingConditions, World, ScenarioEndNoInteractions, ScenarioEndAllConditionsMet } from "../scenario";
+import { RolesDescriptor } from "../roles";
 import { MapStructure, Location } from "../location";
 import { Interaction } from "../interaction";
 import { Phrase } from "../phrase";
 import { generateAgent } from "./agentBuilder";
 import { Effect, EffectComponent, EffectKind, EffectStrength } from "npc-emotional";
-import { Sentence } from "first-order-logic";
 import { Input } from "../input";
 
 describe("FinishingConditions should", () => {
@@ -66,7 +64,8 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
 
-        expect(step).not.toBe(null);
+        expect(step.content).toBe(ScenarioEndAllConditionsMet);
+        expect(scenario.isFinished).toBe(true);
     });
 
     it("perform an interactionless step", () => {
@@ -81,7 +80,8 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
 
-        expect(step).not.toBe(null);
+        expect(step.content).toBe(ScenarioEndNoInteractions);
+        expect(scenario.isFinished).toBe(true);
     });
 
     it("perform a step", () => {
