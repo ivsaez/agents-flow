@@ -148,65 +148,7 @@ export class OnGoingInteraction{
 
         this._effect = Effect.null();
 
-        let lines: string[] = [];
-
-        if (!reactions.any)
-            lines.push("A nadie parece influirle esto.");
-        else{
-            for(let reactionString of reactions.elements
-                .map(x => this.parseReaction(x.name, x.reaction))){
-                lines.push(reactionString);
-            }
-        }
-
-        return Step.fromContent(
-            new StringBuilder()
-                .appendSequenceLines(lines)
-                .toString(), 
-            this.isInteractionEnded);
-    }
-
-    parseReaction(name: string, reaction: EffectReaction): string{
-        switch (reaction)
-        {
-            case EffectReaction.VeryPositive:
-                return randomFromList(
-                [
-                    `A ${name} le ha extasiado esto.`,
-                    `A ${name} le ha encantado.`,
-                    `${name} se ha deleitado con esto.`
-                ]);
-
-            case EffectReaction.Positive:
-                return randomFromList(
-                [
-                    `A ${name} le ha alegrado esto.`,
-                    `A ${name} le ha gustado esto.`,
-                    `A ${name} le ha molado esto.`
-                ]);
-
-            case EffectReaction.Negative:
-                return randomFromList(
-                [
-                    `A ${name} no le ha gustado nada eso.`,
-                    `A ${name} no le ha parecido bien esto.`,
-                    `A ${name} no le ha enrollao esto.`,
-                    `A ${name} le sentado mal esto.`,
-                    `A ${name} le ha puesto triste esto.`
-                ]);
-
-            case EffectReaction.VeryNegative:
-                return randomFromList(
-                [
-                    `A ${name} le ha disgustado esto notablemente.`,
-                    `A ${name} le ha sentado fatal esto.`,
-                    `A ${name} le ha parecido una mierda esto.`,
-                    `A ${name} le ha jodido notablemente esto.`
-                ]);
-
-            default:
-                return "";
-        }
+        return Step.fromReactions(reactions, this.isInteractionEnded);
     }
 
     equals(other: OnGoingInteraction): boolean{

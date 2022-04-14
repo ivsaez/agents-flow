@@ -121,11 +121,11 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
         expect(step.isEnder).toBe(false);
-        expect(step.content).toBe("First: - Hello Second.");
+        expect(step.content.includes("Hello")).toBe(true);
 
         let step2 = scenario.performStep(Input.void());
         expect(step2.isEnder).toBe(false);
-        expect(step2.content).toBe("Second: - Hi First.");
+        expect(step2.content.includes("Hi")).toBe(true);
 
         let step3 = scenario.performStep(Input.void());
         expect(step3.isEnder).toBe(true);

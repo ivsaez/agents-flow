@@ -1,5 +1,6 @@
 import { Choices, Step } from "../step";
 import { StringBuilder } from "builder-of-strings";
+import { Reactions } from "npc-emotional";
 
 describe("Choices should", () => {
     it("throw error when incorrect input", () => {
@@ -36,6 +37,7 @@ describe("Step should", () => {
         expect(step.content).toBe(`content`);
         expect(step.isEnder).toBe(true);
         expect(step.hasChoices).toBe(false);
+        expect(step.hasReactions).toBe(false);
 
         step.append("more");
 
@@ -45,10 +47,22 @@ describe("Step should", () => {
     it("be created from choices", () => {
         let step = Step.fromChoices(["first", "second"]);
 
-        expect(step.content).toBe(null);
+        expect(step.content).toBe("");
         expect(step.isEnder).toBe(false);
         expect(step.hasChoices).toBe(true);
+        expect(step.hasReactions).toBe(false);
 
         expect(step.toString()).toBe(`${StringBuilder.Line}[0 - first]${StringBuilder.Line}[1 - second]`);
+    });
+
+    it("be created from reactions", () => {
+        let step = Step.fromReactions(new Reactions());
+
+        expect(step.content).toBe("");
+        expect(step.isEnder).toBe(false);
+        expect(step.hasChoices).toBe(false);
+        expect(step.hasReactions).toBe(true);
+
+        expect(step.reactions.any).toBe(false);
     });
 });

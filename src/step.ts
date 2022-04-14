@@ -1,11 +1,16 @@
 import { StringBuilder } from "builder-of-strings";
+import { Reactions } from "npc-emotional";
 
 export class Step{
     private _content: StringBuilder;
     private _ender: boolean;
     private _choices: Choices;
+    private _reactions: Reactions;
 
     private constructor(){
+        this._content = new StringBuilder();
+        this._choices = null;
+        this._reactions = null;
     }
 
     get content(): string{
@@ -24,6 +29,14 @@ export class Step{
 
     get choices(): Choices{
         return this._choices;
+    }
+
+    get reactions(){
+        return this._reactions;
+    }
+
+    get hasReactions(): boolean{
+        return this._reactions != null;
     }
 
     append(text: string): Step{
@@ -49,14 +62,24 @@ export class Step{
         return step;
     }
 
-    static fromChoices(choices: string[]): Step{
+    static fromChoices(choices: string[], isEnder: boolean = false): Step{
         if(choices == null || choices.length === 0)
             throw new Error("Choices cannot be empty.");
         
         let step = new Step();
-        step._content = null;
-        step._ender = false;
+        step._ender = isEnder;
         step._choices = new Choices(choices); 
+
+        return step;
+    }
+
+    static fromReactions(reactions: Reactions, isEnder: boolean = false): Step{
+        if(reactions == null)
+            throw new Error("Reactions cannot be null.");
+        
+        let step = new Step();
+        step._ender = isEnder;
+        step._reactions = reactions;
 
         return step;
     }
