@@ -26,6 +26,7 @@ describe("Agent should", () => {
         let agent = generateAgent("First agent");
         let individual = agent.Individual;
         expect(individual.equals(new Individual("Firstagent"))).toBe(true);
+        expect(agent.logic.population.exists(new Individual("Firstagent"))).toBe(true);
     });
 });
 

@@ -65,6 +65,7 @@ export class Agent implements IEmotional{
             ? (turn: number, agent: Agent) => "" 
             : onTurnPassed;
         this._logic = new LogicAgent();
+        this._logic.population.add(this.Individual);
     }
 
     get Name(){
