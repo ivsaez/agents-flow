@@ -1,6 +1,6 @@
 import { Aspect, Likes } from "npc-aspect";
 import { RelationSet } from "npc-relations";
-import { Individual, Population, Rules, TruthTable } from "first-order-logic";
+import { Individual, LogicAgent, Population, Rules, TruthTable } from "first-order-logic";
 import { IEmotional } from "npc-emotional";
 import { Happiness, Personality } from "npc-mind";
 import { randomFromList } from "role-methods";
@@ -18,9 +18,7 @@ export class Agent implements IEmotional{
     private _characteristics: TruthTable;
     private _desires: Desires;
     private _onTurnPassed: PassTurn;
-    private _knownRules: Rules;
-    private _knownPopulation: Population;
-    private _knownSentences: TruthTable;
+    private _logic: LogicAgent;
 
     constructor(
         name: string,
@@ -66,9 +64,7 @@ export class Agent implements IEmotional{
         this._onTurnPassed = onTurnPassed == null 
             ? (turn: number, agent: Agent) => "" 
             : onTurnPassed;
-        this._knownRules = new Rules();
-        this._knownPopulation = new Population();
-        this._knownSentences = new TruthTable();
+        this._logic = new LogicAgent();
     }
 
     get Name(){
@@ -115,16 +111,8 @@ export class Agent implements IEmotional{
         return new Individual(this.Name.replace(" ", ""));
     }
 
-    get knownRules(){
-        return this._knownRules;
-    }
-
-    get knownPopulation(){
-        return this._knownPopulation;
-    }
-
-    get knownSentences(){
-        return this._knownSentences;
+    get logic(){
+        return this._logic;
     }
 
     say(content: string){
