@@ -20,7 +20,7 @@ export class RolesDescriptor{
     }
 
     get secondarys(): string[]{
-        return [...this._secondarys.values()];
+        return Array.from(this._secondarys.values());
     }
 
     get all(): string[]{
@@ -36,11 +36,11 @@ export class Roles{
     }
 
     get roleNames(): string[]{
-        return [...this._roles.keys()];
+        return Array.from(this._roles.keys());
     }
 
     get agents(): Agent[]{
-        return [...this._roles.values()];
+        return Array.from(this._roles.values());
     }
 
     match(role: string, agent: Agent): Roles{

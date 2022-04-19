@@ -19,11 +19,11 @@ export class Location{
     }
 
     get connections(): Location[]{
-        return [...this._connections.values()];
+        return Array.from(this._connections.values());
     }
 
     get agents(): Agent[]{
-        return [...this._agents.values()];
+        return Array.from(this._agents.values());
     }
 
     append(agents: Agent[]): void{

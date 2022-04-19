@@ -155,7 +155,7 @@ export class Crowd{
     }
 
     get all(): Agent[]{
-        return [...this._crowd.values()];
+        return Array.from(this._crowd.values());
     }
 
     get(name: string): Agent{
