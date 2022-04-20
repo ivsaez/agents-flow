@@ -64,7 +64,8 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
 
-        expect(step.content.toString()).toBe(ScenarioEndAllConditionsMet);
+        expect(step.content.length).toBe(1);
+        expect(step.content[0]).toBe(ScenarioEndAllConditionsMet);
         expect(scenario.isFinished).toBe(true);
     });
 
@@ -80,7 +81,8 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
 
-        expect(step.content.toString()).toBe(ScenarioEndNoInteractions);
+        expect(step.content.length).toBe(1);
+        expect(step.content[0]).toBe(ScenarioEndNoInteractions);
         expect(scenario.isFinished).toBe(true);
     });
 
