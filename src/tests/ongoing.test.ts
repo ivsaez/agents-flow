@@ -127,7 +127,7 @@ describe("OnGoingInteraction should", () => {
         
         let step = ongoing.performStep(Input.void());
 
-        expect(step.content).toBe("First: - Hello Second.");
+        expect(step.content.toString()).toBe("First: - Hello Second.");
         expect(step.isEnder).toBe(false);
     });
 
@@ -163,12 +163,12 @@ describe("OnGoingInteraction should", () => {
         
         let step = ongoing.performStep(Input.void());
 
-        expect(step.content).toBe("First: - Hello Second.");
+        expect(step.content.toString()).toBe("First: - Hello Second.");
         expect(step.isEnder).toBe(false);
 
         let step2 = ongoing.performStep(Input.void());
 
-        expect(step2.content).toBe("Second: - Hi First.");
+        expect(step2.content.toString()).toBe("Second: - Hi First.");
         expect(step2.isEnder).toBe(false);
 
         let step3 = ongoing.performStep(Input.void());

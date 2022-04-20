@@ -7,7 +7,6 @@ import { HistoricInteractions } from "./historic";
 import { Input } from "./input";
 import { Step } from "./step";
 import { randomFromList } from "role-methods";
-import { StringBuilder } from "builder-of-strings";
 
 export type ScenarioCondition = (scenario: Scenario) => boolean;
 
@@ -256,7 +255,9 @@ export class Scenario{
             }
 
             this._currentInteraction = null;
-            step.append(this.passTurn());
+            for(let turnText of this.passTurn()){
+                step.append(turnText);
+            }
         }
 
         return step;
@@ -270,12 +271,15 @@ export class Scenario{
         return this.performCurrentInteractionStep(Input.void());
     }
 
-    private passTurn(): string
+    private passTurn(): string[]
     {
         this._turn++;
-        return new StringBuilder()
-            .appendLine(this._onTurnPassed(this._turn, this))
-            .appendSequenceLines(this._agents.all.map(a => a.OnTurnPassed(this._turn, a)))
-            .toString();
+        let turnTexts: string[] = [this._onTurnPassed(this._turn, this)];
+
+        for(let text of this._agents.all.map(a => a.OnTurnPassed(this._turn, a))){
+            turnTexts.push(text);
+        }
+
+        return turnTexts;
     }
 }

@@ -16,8 +16,9 @@ describe("Choices should", () => {
         expect(choices.isValidItem(0)).toBe(true);
         expect(choices.isValidItem(1)).toBe(true);
         expect(choices.isValidItem(2)).toBe(false);
-
-        expect(choices.toString()).toBe(`${StringBuilder.Line}[0 - first]${StringBuilder.Line}[1 - second]`);
+        expect(choices.items.length).toBe(2);
+        expect(choices.items[0]).toBe("first");
+        expect(choices.items[1]).toBe("second");
     });
 });
 
@@ -34,7 +35,7 @@ describe("Step should", () => {
     it("be created from content", () => {
         let step = Step.fromContent("content", true);
 
-        expect(step.content).toBe(`content`);
+        expect(step.content.toString()).toBe(`content`);
         expect(step.isEnder).toBe(true);
         expect(step.hasChoices).toBe(false);
         expect(step.hasReactions).toBe(false);
@@ -47,18 +48,20 @@ describe("Step should", () => {
     it("be created from choices", () => {
         let step = Step.fromChoices(["first", "second"]);
 
-        expect(step.content).toBe("");
+        expect(step.content.toString()).toBe("");
         expect(step.isEnder).toBe(false);
         expect(step.hasChoices).toBe(true);
         expect(step.hasReactions).toBe(false);
 
-        expect(step.toString()).toBe(`${StringBuilder.Line}[0 - first]${StringBuilder.Line}[1 - second]`);
+        expect(step.choices.items.length).toBe(2);
+        expect(step.choices.items[0]).toBe("first");
+        expect(step.choices.items[1]).toBe("second");
     });
 
     it("be created from reactions", () => {
         let step = Step.fromReactions(new Reactions());
 
-        expect(step.content).toBe("");
+        expect(step.content.toString()).toBe("");
         expect(step.isEnder).toBe(false);
         expect(step.hasChoices).toBe(false);
         expect(step.hasReactions).toBe(true);

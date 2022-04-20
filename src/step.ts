@@ -13,10 +13,10 @@ export class Step{
         this._reactions = null;
     }
 
-    get content(): string{
+    get content(): StringBuilder{
         return this._content == null
             ? null
-            : this._content.toString();
+            : this._content;
     }
 
     get isEnder(): boolean{
@@ -31,7 +31,7 @@ export class Step{
         return this._choices;
     }
 
-    get reactions(){
+    get reactions(): Reactions{
         return this._reactions;
     }
 
@@ -44,10 +44,8 @@ export class Step{
         return this;
     }
 
-    toString(): string{
-        return this.hasChoices
-            ? this.choices.toString()
-            : this.content;
+    toString(forWeb: boolean = false): string{
+        return this.content.toString(forWeb);
     }
 
     static fromContent(content: string, isEnder: boolean = false): Step{
@@ -99,14 +97,11 @@ export class Choices{
         return this._items.length;
     }
 
-    isValidItem(index: number): boolean{
-        return index >= 0 && index < this._items.length;
+    get items(){
+        return this._items;
     }
 
-    toString(): string
-    {
-        return new StringBuilder()
-            .appendSequenceLines(this._items.map((item, index) => `[${index} - ${item}]`))
-            .toString();
+    isValidItem(index: number): boolean{
+        return index >= 0 && index < this._items.length;
     }
 }

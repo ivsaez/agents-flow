@@ -7,8 +7,6 @@ import { MapStructure, Location } from "./location";
 import { Step } from "./step";
 import { Input } from "./input";
 import { Crowd } from "./agent";
-import { StringBuilder } from "builder-of-strings";
-import { randomFromList } from "role-methods";
 
 export class OnGoingInteraction{
     private _deliverer: IDeliverer;

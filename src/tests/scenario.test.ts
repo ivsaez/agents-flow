@@ -64,7 +64,7 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
 
-        expect(step.content).toBe(ScenarioEndAllConditionsMet);
+        expect(step.content.toString()).toBe(ScenarioEndAllConditionsMet);
         expect(scenario.isFinished).toBe(true);
     });
 
@@ -80,7 +80,7 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
 
-        expect(step.content).toBe(ScenarioEndNoInteractions);
+        expect(step.content.toString()).toBe(ScenarioEndNoInteractions);
         expect(scenario.isFinished).toBe(true);
     });
 
@@ -121,14 +121,14 @@ describe("Scenario should", () => {
 
         let step = scenario.performStep(Input.void());
         expect(step.isEnder).toBe(false);
-        expect(step.content.includes("Hello")).toBe(true);
+        expect(step.content.toString().includes("Hello")).toBe(true);
 
         let step2 = scenario.performStep(Input.void());
         expect(step2.isEnder).toBe(false);
-        expect(step2.content.includes("Hi")).toBe(true);
+        expect(step2.content.toString().includes("Hi")).toBe(true);
 
         let step3 = scenario.performStep(Input.void());
         expect(step3.isEnder).toBe(true);
-        expect(step3.content.includes("A turn has passed.")).toBe(true);
+        expect(step3.content.toString().includes("A turn has passed.")).toBe(true);
     });
 });
