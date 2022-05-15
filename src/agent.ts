@@ -1,6 +1,6 @@
 import { Aspect, Likes } from "npc-aspect";
 import { RelationSet } from "npc-relations";
-import { Individual, LogicAgent, Population, Rules, TruthTable } from "first-order-logic";
+import { Individual, LogicAgent, TruthTable, Sentence } from "first-order-logic";
 import { IEmotional } from "npc-emotional";
 import { Happiness, Personality } from "npc-mind";
 import { randomFromList } from "role-methods";
@@ -15,7 +15,7 @@ export class Agent implements IEmotional{
     private _happiness: Happiness;
     private _personality: Personality;
     private _isHuman: boolean;
-    private _characteristics: TruthTable;
+    private _characteristics: Characteristics;
     private _desires: Desires;
     private _onTurnPassed: PassTurn;
     private _logic: LogicAgent;
@@ -27,7 +27,7 @@ export class Agent implements IEmotional{
         happiness: Happiness,
         personality: Personality,
         likes: Likes,
-        characteristics: TruthTable,
+        characteristics: string[],
         human: boolean,
         onTurnPassed: PassTurn = null
     ){
@@ -58,7 +58,7 @@ export class Agent implements IEmotional{
         this._happiness = happiness;
         this._personality = personality;
         this._likes = likes;
-        this._characteristics = characteristics;
+        this._characteristics = new Characteristics(name, characteristics);
         this._desires = new Desires();
         this._isHuman = human;
         this._onTurnPassed = onTurnPassed == null 
@@ -131,7 +131,7 @@ export class Agent implements IEmotional{
             this._happiness.copy(),
             this._personality.copy(),
             this._likes.copy(),
-            this._characteristics.copy(),
+            this._characteristics.table.elements.map(sentence => sentence.function.name),
             this._isHuman
         );
     }
@@ -262,5 +262,35 @@ export class Agents{
         let selectedAgent = randomFromList(ponderatedAgents);
         this._availableAgents = this._availableAgents.filter(a => a.Name !== selectedAgent.Name);
         return selectedAgent;
+    }
+}
+
+export class Characteristics{
+    private _name: string;
+    private _table: TruthTable;
+
+    constructor(name: string, characteristics: string[] = []){
+        if(name == null || name.trim() === "")
+            throw new Error("Name cannot be empty.");
+        
+        this._name = name;
+
+        this._table = new TruthTable();
+        for(let characteristic of characteristics){
+            if(name != null && name.trim() !== ""){
+                this._table.add(Sentence.build(characteristic, this._name));
+            }
+        }
+    }
+
+    get table(){
+        return this._table;
+    }
+
+    is(characteristic: string){
+        if(characteristic == null || characteristic.trim() === "")
+            throw new Error("Characteristic cannot be empty.");
+        
+        return this._table.exists(Sentence.build(characteristic, this._name));
     }
 }

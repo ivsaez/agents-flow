@@ -7,12 +7,12 @@ import { generateAgent } from "./agentBuilder";
 
 describe("Agent should", () => {
     it("throw error if creating with wrong parameters.", () => {
-        expect(() => new Agent(null, Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), new Happiness(), new Personality(), new Likes(), new TruthTable(), false)).toThrowError();
-        expect(() => new Agent("First", null, new RelationSet(), new Happiness(), new Personality(), new Likes(), new TruthTable(), false)).toThrowError();
-        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), null, new Happiness(), new Personality(), new Likes(), new TruthTable(), false)).toThrowError();
-        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), null, new Personality(), new Likes(), new TruthTable(), false)).toThrowError();
-        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), new Happiness(), null, new Likes(), new TruthTable(), false)).toThrowError();
-        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), new Happiness(), new Personality(), null, new TruthTable(), false)).toThrowError();
+        expect(() => new Agent(null, Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), new Happiness(), new Personality(), new Likes(), [], false)).toThrowError();
+        expect(() => new Agent("First", null, new RelationSet(), new Happiness(), new Personality(), new Likes(), [], false)).toThrowError();
+        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), null, new Happiness(), new Personality(), new Likes(), [], false)).toThrowError();
+        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), null, new Personality(), new Likes(), [], false)).toThrowError();
+        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), new Happiness(), null, new Likes(), [], false)).toThrowError();
+        expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), new Happiness(), new Personality(), null, [], false)).toThrowError();
         expect(() => new Agent("First", Aspect.generateOriginHuman(OriginKind.Oceanic), new RelationSet(), new Happiness(), new Personality(), new Likes(), null, false)).toThrowError();
     });
 
