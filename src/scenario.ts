@@ -250,7 +250,9 @@ export class Scenario{
 
                 for (let agent of listeningAgents)
                 {
-                    modusPonens(agent.logic.rules, agent.logic.population, agent.logic.table, postconditions.elements);
+                    if(agent.logic.rules.elements.length > 0){
+                        modusPonens(agent.logic.rules, agent.logic.population, agent.logic.table, postconditions.elements);
+                    }
                 }
             }
 
