@@ -19,6 +19,7 @@ export class Agent implements IEmotional{
     private _desires: Desires;
     private _onTurnPassed: PassTurn;
     private _logic: LogicAgent;
+    private _isActive: boolean;
 
     constructor(
         name: string,
@@ -61,6 +62,7 @@ export class Agent implements IEmotional{
         this._characteristics = new Characteristics(name, characteristics);
         this._desires = new Desires();
         this._isHuman = human;
+        this._isActive = true;
         this._onTurnPassed = onTurnPassed == null 
             ? (turn: number, agent: Agent) => "" 
             : onTurnPassed;
@@ -104,6 +106,10 @@ export class Agent implements IEmotional{
         return this._desires;
     }
 
+    get IsActive(){
+        return this._isActive;
+    }
+
     get OnTurnPassed(){
         return this._onTurnPassed;
     }
@@ -121,6 +127,14 @@ export class Agent implements IEmotional{
             throw new Error("Content cannot be null.");
         
         return `${this.Name}: - ${content}`;
+    }
+
+    activate(): void{
+        this._isActive = true;
+    }
+
+    deactivate(): void{
+        this._isActive = false;
     }
 
     copy(): Agent{
