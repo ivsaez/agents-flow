@@ -137,6 +137,14 @@ export class Agent implements IEmotional{
         this._isActive = false;
     }
 
+    humanize(): void{
+        this._isHuman = true;
+    }
+
+    dehumanize(): void{
+        this._isHuman = false;
+    }
+
     copy(): Agent{
         return new Agent(
             this._name,
