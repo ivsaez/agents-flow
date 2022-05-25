@@ -146,6 +146,10 @@ export class Scenario{
         return this._turn;
     }
 
+    get postconditions(){
+        return this._globalPostconditions;
+    }
+
     performStep(input: Input): Step{
         return this.thereIsCurrentInteraction
             ? this.performCurrentInteractionStep(input)
