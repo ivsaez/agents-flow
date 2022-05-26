@@ -7,6 +7,8 @@ import { Phrase } from "../phrase";
 import { generateAgent } from "./agentBuilder";
 import { Effect, EffectComponent, EffectKind, EffectStrength } from "npc-emotional";
 import { Input } from "../input";
+import { Timing } from "..";
+import { Sentence, TruthTable } from "first-order-logic";
 
 describe("FinishingConditions should", () => {
     it("me all conditions", () => {
@@ -39,6 +41,89 @@ describe("World should", () => {
         ));
 
         expect(world.currentScenario.name).toBe("scenario");
+    });
+
+    it("pass to next scenario", () => {
+        let world = new World();
+
+        expect(world.currentScenario).toBe(null);
+
+        world.add(new Scenario(
+            "scenario",
+            new MapStructure([]),
+            new Agents([]),
+            [],
+            new FinishingConditions()
+        ));
+
+        world.add(new Scenario(
+            "scenario 2",
+            new MapStructure([]),
+            new Agents([]),
+            [],
+            new FinishingConditions()
+        ));
+
+        expect(world.currentScenario.name).toBe("scenario");
+
+        world.currentScenario.performStep(Input.void());
+
+        expect(world.currentScenario.name).toBe("scenario 2");
+    });
+
+    it("inherit postconditions", () => {
+        let world = new World();
+
+        let agent = generateAgent("Agent");
+        let location = new Location("Location");
+        let map = new MapStructure([ location ]);
+        map.move(agent, location);
+
+        world.add(new Scenario(
+            "scenario",
+            map,
+            new Agents([ agent ]),
+            [
+                new Interaction(
+                    "interaction", 
+                    "description", 
+                    new RolesDescriptor("Role"),
+                    [
+                        new Phrase("Role").withAlternative(roles => "[Role]: Hi.")
+                    ],
+                    Timing.Single,
+                    (postconditions, roles, map) => true,
+                    (roles, map) => new TruthTable().with(Sentence.build("Something")))
+            ],
+            new FinishingConditions()
+                .with(scenario => scenario.turn === 100)
+        ));
+
+        world.add(new Scenario(
+            "scenario 2",
+            new MapStructure([]),
+            new Agents([
+                generateAgent("Agent")
+            ]),
+            [
+                new Interaction(
+                    "interaction", 
+                    "description", 
+                    new RolesDescriptor("Role"),
+                    [
+                        new Phrase("Role").withAlternative(roles => "[Role]: Hi.")
+                    ])
+            ],
+            new FinishingConditions()
+        ).inheritor());
+
+        expect(world.currentScenario.name).toBe("scenario");
+
+        world.currentScenario.performStep(Input.void());
+        world.currentScenario.performStep(Input.void());
+
+        expect(world.currentScenario.name).toBe("scenario 2");
+        expect(world.currentScenario.postconditions.exists(Sentence.build("Something"))).toBe(true);
     });
 });
 

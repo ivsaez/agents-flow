@@ -33,9 +33,11 @@ export class FinishingConditions{
 
 export class World{
     private _scenarios: Scenario[];
+    private _lastScenario: Scenario;
 
     constructor(){
         this._scenarios = [];
+        this._lastScenario = null;
     }
 
     get currentScenario(): Scenario{
@@ -43,6 +45,14 @@ export class World{
 
         if(notFinishedScenarios.length === 0)
             return null;
+
+        if(this._lastScenario === null){
+            this._lastScenario = notFinishedScenarios[0];
+        }else{
+            if(this._lastScenario.name !== notFinishedScenarios[0].name && notFinishedScenarios[0].isInheritor){
+                notFinishedScenarios[0].postconditions.join(this._lastScenario.postconditions);
+            }
+        }
         
         return notFinishedScenarios[0];
     }
@@ -79,6 +89,7 @@ export class Scenario{
     private _historic: HistoricInteractions;
     private _isFinished: boolean;
     private _turn: number;
+    private _isInheritor: boolean;
 
     constructor(
         name: string,
@@ -116,6 +127,7 @@ export class Scenario{
         this._historic = new HistoricInteractions();
         this._globalPostconditions = new TruthTable();
         this._turn = 0;
+        this._isInheritor = false;
     }
 
     get name(){
@@ -146,8 +158,17 @@ export class Scenario{
         return this._turn;
     }
 
+    get isInheritor(){
+        return this._isInheritor;
+    }
+
     get postconditions(){
         return this._globalPostconditions;
+    }
+
+    inheritor(): Scenario{
+        this._isInheritor  = true;
+        return this;
     }
 
     performStep(input: Input): Step{
