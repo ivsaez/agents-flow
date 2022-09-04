@@ -18,9 +18,10 @@ export class OnGoingInteraction{
 
     private _roles: Roles;
     private _map: MapStructure;
+    private _table: TruthTable;
     private _interaction: IInteraction;
 
-    constructor(interaction: IInteraction, roles: Roles, map: MapStructure){
+    constructor(interaction: IInteraction, roles: Roles, map: MapStructure, table: TruthTable){
         if(interaction == null)
             throw new Error("Interaction cannot be null.");
         
@@ -30,9 +31,13 @@ export class OnGoingInteraction{
         if(map == null)
             throw new Error("Map cannot be null.");
         
+        if(table == null)
+            throw new Error("Postconditions table cannot be null.");
+
         this._interaction = interaction;
         this._roles = roles;
         this._map = map;
+        this._table = table;
 
         this._effect = Effect.null();
         this._performerRole = null;
@@ -62,7 +67,7 @@ export class OnGoingInteraction{
 
     get postconditions(): TruthTable
     {
-        this._onGoingPostconditions.join(this._interaction.postconditions(this._roles, this._map));
+        this._onGoingPostconditions.join(this._interaction.postconditions(this._table, this._roles, this._map));
         return this._onGoingPostconditions;
     }
 

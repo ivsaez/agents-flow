@@ -5,6 +5,7 @@ import { Interaction } from "../interaction";
 import { Phrase } from "../phrase";
 import { generateAgent } from "./agentBuilder";
 import { HistoricInteractions } from "../historic";
+import { TruthTable } from "first-order-logic";
 
 describe("HistoricInteractions should", () => {
     it("detect added interactions", () => {
@@ -31,13 +32,15 @@ describe("HistoricInteractions should", () => {
             interaction, 
             new Roles()
                 .match("role", agent), 
-            map);
+            map,
+            TruthTable.empty);
         
         let otherOngoing = new OnGoingInteraction(
             otherInteraction, 
             new Roles()
                 .match("role", agent), 
-            map);
+            map,
+            TruthTable.empty);
         
         historic.add(agent, ongoing);
 

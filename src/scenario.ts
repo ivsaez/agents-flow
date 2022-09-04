@@ -249,7 +249,7 @@ export class Scenario{
             {
                 if(interaction.preconditions(this._globalPostconditions, permutation, this._map))
                 {
-                    let possibleInteraction = new OnGoingInteraction(interaction, permutation, this._map);
+                    let possibleInteraction = new OnGoingInteraction(interaction, permutation, this._map, this._globalPostconditions);
                     if (interaction.timing === Timing.Repeteable 
                         || !this._historic.hasExecutedOnGoingInteraction(possibleInteraction))
                         result.push(possibleInteraction);

@@ -1,6 +1,6 @@
 import { Roles, RolesDescriptor } from "./roles";
 import { Phrase } from "./phrase";
-import { TruthTable } from "first-order-logic";
+import { TruthTable, Sentence } from "first-order-logic";
 import { MapStructure } from "./location";
 import { Agent } from ".";
 
@@ -10,7 +10,7 @@ export interface IDeliverer{
 }
 
 export type Preconditions = (table: TruthTable, roles: Roles, map: MapStructure) => boolean;
-export type Postconditions = (roles: Roles, map: MapStructure) => TruthTable;
+export type Postconditions = (table: TruthTable, roles: Roles, map: MapStructure) => TruthTable;
 
 export interface IInteraction{
     name: string;

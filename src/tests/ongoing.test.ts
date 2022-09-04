@@ -7,12 +7,14 @@ import { generateAgent } from "./agentBuilder";
 import { Effect, EffectComponent, EffectKind, EffectStrength } from "npc-emotional";
 import { Sentence } from "first-order-logic";
 import { Input } from "../input";
+import { TruthTable } from "first-order-logic";
 
 describe("OnGoingInteraction should", () => {
     it("throw an error when wrong input", () => {
-        expect(() => new OnGoingInteraction(null, new Roles(), new MapStructure([]))).toThrowError();
-        expect(() => new OnGoingInteraction(new Interaction("interaction", "interaction description", new RolesDescriptor("main"), [ new Phrase("performer") ]), null, new MapStructure([]))).toThrowError();
-        expect(() => new OnGoingInteraction(new Interaction("interaction", "interaction description", new RolesDescriptor("main"), [ new Phrase("performer") ]), new Roles(), null)).toThrowError();
+        expect(() => new OnGoingInteraction(null, new Roles(), new MapStructure([]), TruthTable.empty)).toThrowError();
+        expect(() => new OnGoingInteraction(new Interaction("interaction", "interaction description", new RolesDescriptor("main"), [ new Phrase("performer") ]), null, new MapStructure([]), TruthTable.empty)).toThrowError();
+        expect(() => new OnGoingInteraction(new Interaction("interaction", "interaction description", new RolesDescriptor("main"), [ new Phrase("performer") ]), new Roles(), null, TruthTable.empty)).toThrowError();
+        expect(() => new OnGoingInteraction(new Interaction("interaction", "interaction description", new RolesDescriptor("main"), [ new Phrase("performer") ]), new Roles(), new MapStructure([]), null)).toThrowError();
     });
 
     it("create a valid instance", () => {
@@ -29,7 +31,8 @@ describe("OnGoingInteraction should", () => {
                 [ new Phrase("performer") ]), 
             new Roles()
                 .match("role", agent), 
-            map);
+            map,
+            TruthTable.empty);
         
         expect(ongoing.interaction.name).toBe("interaction");
         expect(ongoing.interaction.description).toBe("interaction description");
@@ -54,7 +57,8 @@ describe("OnGoingInteraction should", () => {
                 [ new Phrase("performer") ]), 
             new Roles()
                 .match("role", agent), 
-            map);
+            map,
+            TruthTable.empty);
         
         let other = new OnGoingInteraction(
             new Interaction(
@@ -64,7 +68,8 @@ describe("OnGoingInteraction should", () => {
                 [ new Phrase("performer") ]), 
             new Roles()
                 .match("role", agent), 
-            map);
+            map,
+            TruthTable.empty);
         
         let different = new OnGoingInteraction(
             new Interaction(
@@ -74,7 +79,8 @@ describe("OnGoingInteraction should", () => {
                 [ new Phrase("performer") ]), 
             new Roles()
                 .match("any", agent), 
-            map);
+            map,
+            TruthTable.empty);
         
         expect(ongoing.equals(other)).toBe(true);
         expect(ongoing.equals(different)).toBe(false);
@@ -94,7 +100,8 @@ describe("OnGoingInteraction should", () => {
                 [ new Phrase("performer") ]), 
             new Roles()
                 .match("role", agent), 
-            map);
+            map,
+            TruthTable.empty);
         
         expect(ongoing.toString()).toBe("interaction description having First");
     });
@@ -123,7 +130,8 @@ describe("OnGoingInteraction should", () => {
             new Roles()
                 .match("performer", first)
                 .match("receiver", second), 
-            map);
+            map,
+            TruthTable.empty);
         
         let step = ongoing.performStep(Input.void());
 
@@ -160,7 +168,8 @@ describe("OnGoingInteraction should", () => {
             new Roles()
                 .match("performer", first)
                 .match("receiver", second), 
-            map);
+            map,
+            TruthTable.empty);
         
         let step = ongoing.performStep(Input.void());
 

@@ -60,7 +60,7 @@ describe("Interaction should", () => {
         expect(interaction.postconditions).not.toBe(null);
 
         expect(interaction.preconditions(null, null, null)).toBe(true);
-        expect(interaction.postconditions(null, null).elements.length).toBe(0);
+        expect(interaction.postconditions(null, null, null).elements.length).toBe(0);
     });
 
     it("calculate all permutations", () => {
