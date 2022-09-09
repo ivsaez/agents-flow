@@ -8,6 +8,11 @@ import { Input } from "./input";
 import { Step } from "./step";
 import { randomFromList } from "role-methods";
 
+interface AgentPossibleInteractions{
+    agent: Agent;
+    possibleInteractions: OnGoingInteraction[]
+}
+
 export type ScenarioCondition = (scenario: Scenario) => boolean;
 
 export class FinishingConditions{
@@ -186,22 +191,12 @@ export class Scenario{
             return Step.fromContent(ScenarioEndAllConditionsMet);
         }
 
-        let agent: Agent = null;
-        let possibleInteractions: OnGoingInteraction[] = null;
+        let agentPossibleInteractions = this.getNextAgentWithInteractions();
+        if(agentPossibleInteractions.agent == null)
+            agentPossibleInteractions = this.getNextAgentWithInteractionsAll();
 
-        let poppedAgents: number = 0;
-        while(agent == null && poppedAgents <= this._agents.count)
-        {
-            let candidate = this._agents.popRandomAgent();
-            poppedAgents++;
-
-            possibleInteractions = this.calculateAllAvailableInteractions(
-                candidate, 
-                this._agents.allExcept(candidate));
-
-            if (possibleInteractions.length > 0)
-                agent = candidate;
-        }
+        let agent = agentPossibleInteractions.agent;
+        let possibleInteractions = agentPossibleInteractions.possibleInteractions;
 
         if (agent == null)
         {
@@ -232,6 +227,51 @@ export class Scenario{
 
             return this.performCurrentInteractionStep(Input.void());
         }
+    }
+
+    private getNextAgentWithInteractions(): AgentPossibleInteractions {
+        let agent: Agent = null;
+        let possibleInteractions: OnGoingInteraction[] = null;
+
+        let poppedAgents: number = 0;
+        while(agent == null && poppedAgents <= this._agents.count)
+        {
+            let candidate = this._agents.popRandomAgent();
+            poppedAgents++;
+
+            possibleInteractions = this.calculateAllAvailableInteractions(
+                candidate, 
+                this._agents.allExcept(candidate));
+
+            if (possibleInteractions.length > 0)
+                agent = candidate;
+        }
+
+        return {
+            agent,
+            possibleInteractions
+        };
+    }
+
+    private getNextAgentWithInteractionsAll(): AgentPossibleInteractions {
+        let agent: Agent = null;
+        let possibleInteractions: OnGoingInteraction[] = null;
+
+        for(const candidate of this._agents.all){
+            possibleInteractions = this.calculateAllAvailableInteractions(
+                candidate, 
+                this._agents.allExcept(candidate));
+
+            if (possibleInteractions.length > 0){
+                agent = candidate;
+                break;
+            }
+        }
+
+        return {
+            agent,
+            possibleInteractions
+        };
     }
 
     private calculateAllAvailableInteractions(main: Agent, others: Agent[]): OnGoingInteraction[]
